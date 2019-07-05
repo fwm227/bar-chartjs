@@ -1,0 +1,5 @@
+/core/
+/node_modules/
+/.npmignore
+/index.html
+/rollup.config.js

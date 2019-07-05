@@ -1,0 +1,26 @@
+{
+  "name": "@atom-chart/bar-chart",
+  "version": "0.0.2",
+  "description": "",
+  "main": "rollup.config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "rollup": "^1.15.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reming0227/bar-chart.git"
+  },
+  "author": "reming",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reming0227/bar-chart/issues"
+  },
+  "homepage": "https://github.com/reming0227/bar-chart#readme"
+}
