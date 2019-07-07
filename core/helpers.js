@@ -59,14 +59,12 @@ const helpers = {
     // get suitable tick
     var tempMin = Number.MAX_VALUE;
     var idxTag;
-    console.log(ticks);
     ticks.forEach(function (tick, idx) {
       if (tick[1] <= tempMin) {
         tempMin = tick[1];
         idxTag = idx;
       }
     });
-    console.log(ticks[idxTag]);
     return ticks[idxTag];
   },
   /**

@@ -1,7 +1,7 @@
 import {createBar, drawBar} from './bar.js';
 import drawFrame from './frame.js';
 import helpers from './helpers.js';
-
+import option from './option.js';
 var animIdx = 0;
 /**
  * Throw exception
@@ -62,9 +62,9 @@ BarChart.prototype.initBars = function () {
   this.bars = [];
   var bar_w = this.areaW / 2 / this.option.data.length;
   var next_x_axis = bar_w;
-  var phyStep = this.canvasH / this.tick[1];
+  var phyScale = (this.canvasH - 40) / this.tick[1];
   this.option.data.forEach((val, index) => {
-    var bar = createBar(next_x_axis, this.canvasH - 20.5, bar_w, -1 * val * phyStep);
+    var bar = createBar(next_x_axis, this.canvasH - 20.5, bar_w, -1 * val * phyScale);
     this.bars.push(bar);
     next_x_axis += (bar_w + bar_w / 2);
   })
@@ -75,7 +75,7 @@ BarChart.prototype.initBars = function () {
  */
 BarChart.prototype.caculateScele = function () {
   this.tick = helpers.getTick(this.min_data >= 0 ? 0 : this.min_data, this.max_data);
-  this.context.font="12px Arial";
+  this.context.font = `${option.fontSize} ${option.fontFamily}`;
   this.yAxis_left = parseInt(2 * this.context.measureText(this.tick[1]).width) + 0.5;
   this.areaW = this.canvasW - this.yAxis_left;
 }
@@ -83,7 +83,10 @@ BarChart.prototype.caculateScele = function () {
  * Render bar-chart
  */
 BarChart.prototype.render = function () {
-  drawFrame(this.context, this.tick, this.canvasW, this.canvasH, this.yAxis_left);
+  var ctx = this.context;
+  drawFrame(this);
+  ctx.fillStyle = option.color;
+  ctx.clearRect(0, this.canvasH, this.canvasW, this.canvasH);
   this.animation();
 }
 /**
@@ -105,11 +108,11 @@ BarChart.prototype.animation = function () {
   ctx.rect(0, this.canvasH, this.canvasW, animIdx);
   ctx.clip();
   this.drawBars();
-  ctx.restore();
   if (animIdx > -1 * this.canvasH) {
     const anim = this.animation.bind(this);
     helpers.requestAnimationFrame()(anim);
   }
+  ctx.restore();
 }
 /**
  * Bar-chart constructor

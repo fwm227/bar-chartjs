@@ -25,33 +25,54 @@
  * |-----------------------------------------------------|
  *
  */
+import option from './option.js';
+
 function drawAxis (ctx, yAxis_left, ctx_w, ctx_h) {
   ctx.beginPath();
+  ctx.strokeStyle = option.axisStyle;
   ctx.moveTo(yAxis_left, 0);
   ctx.lineTo(yAxis_left, ctx_h - 20.5);
   ctx.moveTo(yAxis_left, ctx_h - 20.5);
   ctx.lineTo(ctx_w, ctx_h - 20.5);
+  ctx.closePath();
+  ctx.stroke();
 }
-/**
- * Draw frame
- */
-function drawFrame (ctx, tick, ctx_w, ctx_h, yAxis_left) {
-  var phyStep = ctx_h / tick[3];
-  drawAxis(ctx, yAxis_left, ctx_w, ctx_h);
+function drawYAxisLabel (ctx, tick, yAxis_left, ctx_w, ctx_h) {
+  var phyStep = (ctx_h - 40) / tick[3];
   var area_x = ctx_w - yAxis_left;
   var area_y = ctx_h - 20;
+
+  ctx.beginPath();
+  ctx.strokeStyle = option.lineStyle;
   for (var i = 0; i <= tick[3]; i++) {
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'right';
-    ctx.fillText(tick[2] * i, yAxis_left - 6, area_y - i * phyStep)
-    ctx.moveTo(yAxis_left - 3, area_y - i * phyStep + 0.5);
+    ctx.fillStyle = '#bbb';
+    ctx.fillText(tick[2] * i, yAxis_left - 10, area_y - i * phyStep)
+    ctx.moveTo(yAxis_left - 6, area_y - i * phyStep + 0.5);
     ctx.lineTo(yAxis_left, area_y - i * phyStep + 0.5);
-    ctx.strokeStyle = "#ccc";
-    ctx.moveTo(yAxis_left, area_y - i * phyStep + 0.5);
-    ctx.lineTo(ctx_w, area_y - i * phyStep + 0.5);
+    if (i !== 0) {
+      ctx.moveTo(yAxis_left, area_y - i * phyStep + 0.5);
+      ctx.lineTo(ctx_w, area_y - i * phyStep + 0.5);
+    }
   }
   ctx.closePath();
   ctx.stroke();
+}
+/**
+ * Draw frame, tick[0] is min-tick, tick[1] is max-ick
+ * tick[2] is step-space, tick[3] is step-number
+ */
+function drawFrame (chart) {
+  var ctx = chart.context;
+  var tick = chart.tick;
+  var ctx_w = chart.canvasW;
+  var ctx_h = chart.canvasH;
+  var yAxis_left = chart.yAxis_left;
+
+  drawAxis(ctx, yAxis_left, ctx_w, ctx_h);
+  // drawXAxisLabel(ctx);
+  drawYAxisLabel(ctx, tick, yAxis_left, ctx_w, ctx_h);
 }
 
 export default drawFrame;

@@ -1,3 +1,5 @@
+import animation from './animation.js';
+
 const barInfns = ['x', 'y', 'w', 'h'];
 
 /**
@@ -15,8 +17,8 @@ function createBar () {
 /**
  * Draw bar
  */
+var idx = 0;
 function drawBar (ctx, bar) {
-  ctx.fillStyle = '#108ee9';
   ctx.fillRect(bar.x, bar.y, bar.w, bar.h);
 }
 
