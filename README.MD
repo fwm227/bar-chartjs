@@ -1,3 +1,3 @@
 ## Bar Chart
 
-> state: Developing
+> 🚦 State: In Developing
