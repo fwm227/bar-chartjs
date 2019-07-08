@@ -1,7 +1,8 @@
 import {createBar, drawBar} from './bar.js';
 import drawFrame from './frame.js';
 import helpers from './helpers.js';
-import option from './option.js';
+import optionCtrl from './option.js';
+
 var animIdx = 0;
 /**
  * Throw exception
@@ -15,9 +16,9 @@ function throwException (err) {
  * @param  {[type]} ctx     context of bar-chart
  * @param  {[type]} options - config options
  */
-BarChart.prototype._init = function (content, opt) {
+BarChart.prototype._init = function (content, option) {
   this.initContext(content);
-  this.initOption(opt);
+  this.initOption(option);
   this.initAnimation();
   this.initData();
   this.caculateScele();
@@ -25,8 +26,8 @@ BarChart.prototype._init = function (content, opt) {
   this.render();
 }
 BarChart.prototype.initData = function () {
-  this.min_data = Math.min(...this.option.data);
-  this.max_data = Math.max(...this.option.data);
+  this.min_data = Math.min(...optionCtrl.data);
+  this.max_data = Math.max(...optionCtrl.data);
 }
 /**
  * Init animation
@@ -51,22 +52,25 @@ BarChart.prototype.initContext = function (content) {
  * @param  {Object} opt - config option
  * ar-chart
  */
-BarChart.prototype.initOption = function (opt) {
-  if (opt !== null && !Array.isArray(opt) && typeof opt === 'object') this.option = opt;
-  else throwException(new Error('Option should be a object'));
+BarChart.prototype.initOption = function (option) {
+  if (option !== null && !Array.isArray(option) && typeof option === 'object') {
+    Object.keys(optionCtrl).forEach(function (key, idx) {
+      if (option[key]) optionCtrl[key] = option[key];
+    });
+  } else throwException(new Error('Option should be a object-type'));
 }
 /**
  * Init data of bar-chart
  */
 BarChart.prototype.initBars = function () {
   this.bars = [];
-  var bar_w = this.areaW / 2 / this.option.data.length;
-  var next_x_axis = bar_w;
+  var bar_w = this.areaW / (optionCtrl.data.length + 1) / 2;
+  var next_x_axis = bar_w * 1.5;
   var phyScale = (this.canvasH - 40) / this.tick[1];
-  this.option.data.forEach((val, index) => {
-    var bar = createBar(next_x_axis, this.canvasH - 20.5, bar_w, -1 * val * phyScale);
+  optionCtrl.data.forEach((val, index) => {
+    var bar = createBar(next_x_axis + this.yAxis_left, this.canvasH - 26, bar_w, -1 * val * phyScale);
     this.bars.push(bar);
-    next_x_axis += (bar_w + bar_w / 2);
+    next_x_axis += 2 * bar_w ;
   })
 }
 /**
@@ -75,8 +79,8 @@ BarChart.prototype.initBars = function () {
  */
 BarChart.prototype.caculateScele = function () {
   this.tick = helpers.getTick(this.min_data >= 0 ? 0 : this.min_data, this.max_data);
-  this.context.font = `${option.fontSize} ${option.fontFamily}`;
-  this.yAxis_left = parseInt(2 * this.context.measureText(this.tick[1]).width) + 0.5;
+  this.context.font = `${optionCtrl.fontSize} ${optionCtrl.fontFamily}`;
+  this.yAxis_left = parseInt(2 * this.context.measureText(this.tick[1]).width);
   this.areaW = this.canvasW - this.yAxis_left;
 }
 /**
@@ -84,15 +88,15 @@ BarChart.prototype.caculateScele = function () {
  */
 BarChart.prototype.render = function () {
   var ctx = this.context;
+  ctx.translate(0.5, 0.5);
   drawFrame(this);
-  ctx.fillStyle = option.color;
-  ctx.clearRect(0, this.canvasH, this.canvasW, this.canvasH);
   this.animation();
 }
 /**
  * Draw bar
  */
 BarChart.prototype.drawBars = function () {
+  this.context.fillStyle = optionCtrl.barStyle;
   this.bars.forEach((bar) => {
     drawBar(this.context, bar);
   });
@@ -103,7 +107,9 @@ BarChart.prototype.drawBars = function () {
  */
 BarChart.prototype.animation = function () {
   const ctx = this.context;
+  ctx.clearRect(0, 0, this.canvasW, this.canvasH);
   ctx.save();
+  drawFrame(this);
   animIdx -= 10;
   ctx.rect(0, this.canvasH, this.canvasW, animIdx);
   ctx.clip();

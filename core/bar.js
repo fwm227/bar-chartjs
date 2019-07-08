@@ -1,5 +1,3 @@
-import animation from './animation.js';
-
 const barInfns = ['x', 'y', 'w', 'h'];
 
 /**

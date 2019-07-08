@@ -6,14 +6,12 @@
   <title>Document</title>
 </head>
 <body>
-  <canvas id="canvas" width="500" height="600"></canvas>
+  <canvas id="canvas" width="600" height="400" style="margin-top: 100px; margin-left: 100px;"></canvas>
   <script type="module">
     import BarChart from './core/index.js';
     const canvas = document.querySelector('#canvas');
     new BarChart(canvas, {
-      labels: {
-        data: ['绩效1', '绩效2', '绩效3']
-      },
+      labels: ['绩效1', '绩效2', '绩效3'],
       data: [
         50,
         270,
