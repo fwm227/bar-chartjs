@@ -1,5 +1,6 @@
 /core/
 /node_modules/
+/.babelrc
+/.gitignore
 /.npmignore
-/index.html
 /rollup.config.js
