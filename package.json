@@ -14,10 +14,12 @@
     "@babel/preset-env": "^7.5.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-uglify": "^6.0.2"
+    "rollup-plugin-uglify": "^6.0.2",
+    "uglifyjs": "^2.4.11"
   },
   "scripts": {
-    "build": "rollup --config"
+    "build": "rollup --config",
+    "uglify": "uglifyjs  lib/index.js -o lib/index.min.js -c -m"
   },
   "repository": {
     "type": "git",
