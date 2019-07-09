@@ -1,31 +1,33 @@
 {
-  "name": "bar-chart",
-  "version": "0.0.3",
-  "description": "",
-  "main": "rollup.config.js",
+  "name": "bar-chart-plugin",
+  "version": "0.0.1",
+  "description": "The bar-chart visualization plugin",
+  "main": "lib/index.min.js",
   "directories": {
     "lib": "lib"
-  },
-  "dependencies": {
-    "rollup": "^1.15.6"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
     "@babel/preset-env": "^7.5.2",
+    "rollup": "^1.16.6",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-uglify": "^6.0.2",
-    "uglifyjs": "^2.4.11"
+    "uglify-js": "^3.6.0"
   },
   "scripts": {
     "build": "rollup --config",
-    "uglify": "uglifyjs  lib/index.js -o lib/index.min.js -c -m"
+    "uglify": "uglifyjs lib/index.js -o lib/index.min.js -c -m"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/reming0227/bar-chart.git"
   },
-  "author": "reming",
+  "keywords": [
+    "bar-chart",
+    "bar",
+    "chart"
+  ],
+  "author": "Reming",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/reming0227/bar-chart/issues"

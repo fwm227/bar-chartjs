@@ -1,3 +1,5 @@
+import optionManager from './option.js';
+
 var barInfns = ['x', 'y', 'w', 'h'];
 
 /**
@@ -16,7 +18,9 @@ function createBar () {
  * Draw bar
  */
 var idx = 0;
-function drawBar (ctx, bar) {
+function drawBar (ctx, bar, isSelect) {
+  if (isSelect) ctx.fillStyle = optionManager.selectStyle;
+  else ctx.fillStyle = optionManager.barStyle;
   ctx.fillRect(bar.x, bar.y, bar.w, bar.h);
 }
 
