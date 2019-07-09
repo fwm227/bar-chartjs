@@ -1,4 +1,4 @@
-const barInfns = ['x', 'y', 'w', 'h'];
+var barInfns = ['x', 'y', 'w', 'h'];
 
 /**
  * Create bar

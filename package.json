@@ -1,5 +1,5 @@
 {
-  "name": "@atom-chart/bar-chart",
+  "name": "bar-chart",
   "version": "0.0.3",
   "description": "",
   "main": "rollup.config.js",
@@ -9,7 +9,13 @@
   "dependencies": {
     "rollup": "^1.15.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.5.0",
+    "@babel/preset-env": "^7.5.2",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-uglify": "^6.0.2"
+  },
   "scripts": {
     "build": "rollup --config"
   },

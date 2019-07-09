@@ -1,4 +1,4 @@
-const helpers = {
+var helpers = {
   /**
    * Format tick
    * @param  {[type]} minTick    min tick
