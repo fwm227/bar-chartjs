@@ -2,7 +2,7 @@
 
 > The bar-chart visualization plugin
 
-[![Build Status](https://travis-ci.org/reming0227/bar-chart.svg?branch=master)](https://travis-ci.org/reming0227/bar-chart) [![Version](https://img.shields.io/badge/npm-0.0.2-blue.svg)](https://www.npmjs.com/package/bar-chart-plugin)
+[![Build Status](https://travis-ci.org/reming0227/bar-chart.svg?branch=master)](https://travis-ci.org/reming0227/bar-chart) [![Version](https://img.shields.io/badge/npm-0.0.1-blue.svg)](https://www.npmjs.com/package/bar-chart-plugin)
 
 ## 📦 Installation
 
@@ -17,6 +17,16 @@ yarn add bar-chart-plugin
 import BarChart from 'bar-chart-plugin';
 
 var Option = {
+  data: [50, 200, 100],
+  labels: ['Mon', 'Tues', 'Wed']
+};
+new BarChart(canvas, Option);
+```
+
+## ⚙ Config
+
+```javascript
+{
   data: [],
   labels: [],
   xAxis: {
@@ -60,8 +70,7 @@ var Option = {
       style: 'rgba(0, 0, 0, 0.6)'
     }
   }
-};
-new BarChart(canvas, Option);
+}
 ```
 
 
