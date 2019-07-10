@@ -6,6 +6,12 @@
 
 ## 📦 Installation
 
+### CDN Import
+```javascript
+<script type="text/javascript" src="https://unpkg.com/bar-chartjs/lib/index.min.js"></script>
+```
+
+### Module Import
 ```javascript
 npm install bar-chartjs --save
 yarn add bar-chartjs
@@ -14,10 +20,8 @@ yarn add bar-chartjs
 ## 🔨 Usage
 
 ```javascript
-import BarChart from 'bar-chartjs';
-
 var Option = {
-  data: [50, 200, 100],
+  data: [50, 270, 100],
   labels: ['Mon', 'Tues', 'Wed']
 };
 new BarChart(canvas, Option);
