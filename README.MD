@@ -1,4 +1,4 @@
-## Bar Chart
+## Bar Chart Plugin
 
 > The bar-chart visualization plugin
 
