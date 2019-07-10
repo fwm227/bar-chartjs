@@ -7,7 +7,7 @@
 ## 📦 Installation
 
 ### CDN Import
-```javascript
+```html
 <script type="text/javascript" src="https://unpkg.com/bar-chartjs/lib/index.min.js"></script>
 ```
 
