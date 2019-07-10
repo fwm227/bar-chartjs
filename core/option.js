@@ -1,4 +1,6 @@
 export default {
+  data: [],
+  labels: [],
   xAxis: {
     font: {
       size: 13,
@@ -39,7 +41,5 @@ export default {
       family: 'Arial',
       style: 'rgba(0, 0, 0, 0.6)'
     }
-  },
-  data: [],
-  labels: []
+  }
 };

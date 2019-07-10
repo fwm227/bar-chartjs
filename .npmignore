@@ -1,7 +1,10 @@
 /core/
+/lib/index.js
 /node_modules/
 /.babelrc
 /.gitignore
 /.npmignore
+/.travis.yml
+/.eslintrc
 /rollup.config.js
 /index.html
