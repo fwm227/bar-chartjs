@@ -1,4 +1,4 @@
-## Bar Chart Plugin
+## Bar Chart
 
 > The bar-chart visualization plugin
 
@@ -14,7 +14,7 @@ yarn add bar-chart-plugin
 ## 🔨 Usage
 
 ```javascript
-import BarChart from 'bar-chart-plugin';
+import BarChart from 'bar-chartjs';
 
 var Option = {
   data: [50, 200, 100],
