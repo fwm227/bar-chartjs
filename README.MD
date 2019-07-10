@@ -1,3 +1,72 @@
 ## Bar Chart
 
-> 🚦 State: In Developing
+> The bar-chart visualization plugin
+
+[![Build Status](https://travis-ci.org/reming0227/bar-chart.svg?branch=master)](https://travis-ci.org/reming0227/bar-chart) [![Version](https://img.shields.io/badge/npm-0.0.1-blue.svg)](https://www.npmjs.com/package/bar-chart-plugin)
+
+## 📦 Installation
+
+```javascript
+npm install bar-chart-plugin --save
+yarn add bar-chart-plugin
+```
+
+## 🔨 Usage
+
+```javascript
+import BarChart from 'bar-chart-plugin';
+
+var Option = {
+  data: [],
+  labels: [],
+  xAxis: {
+    font: {
+      size: 13,
+      family: 'Arial',
+      style: '#333'
+    },
+    line: {
+      style: '#333',
+      width: 1
+    }
+  },
+  yAxis: {
+    font: {
+      size: 13,
+      family: 'Arial',
+      style: '#333'
+    },
+    line: {
+      style: '#aaa',
+      width: 1
+    }
+  },
+  bar: {
+    style: {
+      default: 'rgba(16, 142, 233, 0.6)',
+      select: 'rgb(16, 142, 233)',
+    }
+  },
+  style: {
+    axis: '#aaa',
+    line: '#ccc'
+  },
+  duration: 2000,
+  tooltip: {
+    radius: 4,
+    font: {
+      size: 14,
+      family: 'Arial',
+      style: 'rgba(0, 0, 0, 0.6)'
+    }
+  }
+};
+new BarChart(canvas, Option);
+```
+
+
+## 📃 License
+
+[MIT](https://opensource.org/licenses/MIT)
+
+Copyright (c) 2019-present, Reming
