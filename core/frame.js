@@ -25,27 +25,29 @@
  * |-----------------------------------------------------|
  *
  */
-import optionCtrl from './option.js';
+import optionManager from './option.js';
 
 function drawAxis (ctx, yAxis_left, ctx_w, ctx_h) {
   ctx.beginPath();
-  ctx.strokeStyle = optionCtrl.axisStyle;
+  ctx.strokeStyle = optionManager.yAxis.line.style;
   ctx.moveTo(yAxis_left, 0);
   ctx.lineTo(yAxis_left, ctx_h - 20);
   ctx.closePath();
   ctx.stroke();
 }
 function drawXAxisLabel (ctx, yAxis_left, ctx_w, ctx_h) {
-  var labels = optionCtrl.labels;
+  var labels = optionManager.labels;
   var x_step = (ctx_w - yAxis_left) / (labels.length + 1);
   var area_y = ctx_h - 26;
+
   ctx.beginPath();
+  ctx.strokeStyle = optionManager.xAxis.font.style;
+  ctx.textAlign = 'center';
+  ctx.font = `${optionManager.xAxis.font.size}px ${optionManager.xAxis.font.family}`;
+  ctx.fillStyle = optionManager.xAxis.font.style;
   for (var i = 1; i <= labels.length; i++) {
     ctx.moveTo(yAxis_left + i * x_step, area_y);
     ctx.lineTo(yAxis_left + i * x_step, area_y + 6);
-
-    ctx.fillStyle = optionCtrl.fontStyle;
-    ctx.textAlign = 'center';
     ctx.fillText(labels[i - 1], yAxis_left + i * x_step, area_y + 20);
   }
   ctx.closePath();
@@ -57,13 +59,13 @@ function drawYAxisLabel (ctx, tick, yAxis_left, ctx_w, ctx_h) {
   var area_y = ctx_h - 26;
 
   ctx.beginPath();
-  ctx.strokeStyle = optionCtrl.lineStyle;
+  ctx.strokeStyle = optionManager.yAxis.line.style;
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'right';
+  ctx.font = `${optionManager.yAxis.font.size}px ${optionManager.yAxis.font.family}`;
+  ctx.fillStyle = optionManager.yAxis.font.style;
   for (var i = 0; i <= tick[3]; i++) {
-    ctx.textBaseline = 'middle';
-    ctx.textAlign = 'right';
-    ctx.font = `${optionCtrl.fontSize}px ${optionCtrl.fontFamily}`;
-    ctx.fillStyle = optionCtrl.fontStyle;
-    ctx.fillText(tick[2] * i, yAxis_left - 10, area_y - i * phyStep)
+    ctx.fillText(tick[2] * i, yAxis_left - 10, area_y - i * phyStep);
     ctx.moveTo(yAxis_left - 6, area_y - i * phyStep);
     ctx.lineTo(yAxis_left, area_y - i * phyStep);
     ctx.moveTo(yAxis_left, area_y - i * phyStep);

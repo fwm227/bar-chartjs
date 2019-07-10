@@ -1,12 +1,45 @@
 export default {
-  fontSize: 13,
-  fontFamily: 'Arial',
-  fontStyle: '#333',
-  barStyle: 'rgba(0, 0, 0, 0.6)',
-  selectStyle: '#ccc',
-  axisStyle: '#aaa',
-  lineStyle: '#ccc',
+  xAxis: {
+    font: {
+      size: 13,
+      family: 'Arial',
+      style: '#333'
+    },
+    line: {
+      style: '#333',
+      width: 1
+    }
+  },
+  yAxis: {
+    font: {
+      size: 13,
+      family: 'Arial',
+      style: '#333'
+    },
+    line: {
+      style: '#aaa',
+      width: 1
+    }
+  },
+  bar: {
+    style: {
+      default: 'rgba(16, 142, 233, 0.6)',
+      select: 'rgb(16, 142, 233)',
+    }
+  },
+  style: {
+    axis: '#aaa',
+    line: '#ccc'
+  },
   duration: 2000,
+  tooltip: {
+    radius: 4,
+    font: {
+      size: 14,
+      family: 'Arial',
+      style: 'rgba(0, 0, 0, 0.6)'
+    }
+  },
   data: [],
   labels: []
-}
+};

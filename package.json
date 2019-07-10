@@ -9,12 +9,15 @@
   "devDependencies": {
     "@babel/core": "^7.5.0",
     "@babel/preset-env": "^7.5.2",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^6.0.1",
     "rollup": "^1.16.6",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-node-resolve": "^5.2.0",
     "uglify-js": "^3.6.0"
   },
   "scripts": {
+    "eslint": "eslint ./core/**",
     "build": "rollup --config",
     "uglify": "uglifyjs lib/index.js -o lib/index.min.js -c -m"
   },

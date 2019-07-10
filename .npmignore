@@ -4,3 +4,4 @@
 /.gitignore
 /.npmignore
 /rollup.config.js
+/index.html

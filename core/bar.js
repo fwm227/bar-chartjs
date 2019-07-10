@@ -11,20 +11,20 @@ function createBar () {
   var args = arguments;
   barInfns.forEach(function (el, idx) {
     bar[el] = args[idx];
-  })
+  });
   return bar;
 }
 /**
  * Draw bar
  */
-var idx = 0;
 function drawBar (ctx, bar, isSelect) {
-  if (isSelect) ctx.fillStyle = optionManager.selectStyle;
-  else ctx.fillStyle = optionManager.barStyle;
+  if (isSelect) ctx.fillStyle = optionManager.bar.style.select;
+  else ctx.fillStyle = optionManager.bar.style.default;
+
   ctx.fillRect(bar.x, bar.y, bar.w, bar.h);
 }
 
 export {
   drawBar,
   createBar
-}
+};

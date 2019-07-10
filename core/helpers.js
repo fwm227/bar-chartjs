@@ -1,4 +1,7 @@
 var helpers = {
+  isObject: function (target) {
+    return typeof target === 'object' && Object.prototype.toString.call(target) === '[object Object]';
+  },
   /**
    * Format tick
    * @param  {[type]} minTick    min tick
@@ -18,7 +21,7 @@ var helpers = {
       var forStepNum;
 
       Math.pow(10, parseInt(log10Step)) === step ?
-      tempStep = Math.pow(10, parseInt(log10Step)) : tempStep = Math.pow(10, parseInt(log10Step + 1));
+        tempStep = Math.pow(10, parseInt(log10Step)) : tempStep = Math.pow(10, parseInt(log10Step + 1));
 
       formatStep = (step / tempStep).toFixed(6);
       // modify step
@@ -43,7 +46,7 @@ var helpers = {
         minTick = minTick - formatStep * parseInt(extStepNum / 2);
       }
       ticks.push([minTick, maxTick, formatStep, stepNumber]);
-    }
+    };
     return function caculateTicks(minTick, maxTick, stepNumber) {
       if (arguments.length) caculateTick(minTick, maxTick, stepNumber);
       else return ticks;
@@ -89,8 +92,8 @@ var helpers = {
       window.msRequestAnimationFrame ||
       function(callback) {
         return window.setTimeout(callback, 1000 / 60); // simulate FPS of browser
-    };
+      };
   }
-}
+};
 
 export default helpers;

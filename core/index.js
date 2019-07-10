@@ -1,9 +1,9 @@
 import {createBar, drawBar} from './bar.js';
 import drawFrame from './frame.js';
 import helpers from './helpers.js';
-import optionCtrl from './option.js';
+import optionManager from './option.js';
+import showTooltip from './tooltip.js';
 
-var animIdx = 0;
 /**
  * Throw exception
  * @param  {Object} err - exception object
@@ -21,10 +21,10 @@ BarChart.prototype._init = function (canvasDom, option) {
   this.initOption(option);
   this.initData();
   this.caculateScele();
-  this.initBars();;
-  this.initEvent(canvasDom)
+  this.initBars();
+  this.initEvent(canvasDom);
   this.render();
-}
+};
 BarChart.prototype.initEvent = function (canvasDom) {
   var self = this;
   var mouse_position = Object.create(null);
@@ -39,11 +39,12 @@ BarChart.prototype.initEvent = function (canvasDom) {
       self.drawBars(mouse_position);
     }, 1000 / 60);
   });
-}
+};
 BarChart.prototype.initData = function () {
-  this.min_data = Math.min(...optionCtrl.data);
-  this.max_data = Math.max(...optionCtrl.data);
-}
+  this.animQuota = 0;
+  this.min_data = Math.min(...optionManager.data);
+  this.max_data = Math.max(...optionManager.data);
+};
 /**
  * Init context
  * @param  {Object} ctx - context of bar-chart
@@ -56,43 +57,45 @@ BarChart.prototype.initContext = function (canvasDom) {
     this.context = canvasDom.getContext('2d');
   }
   else throwException(new Error('Context should be a canvas DOM'));
-}
+};
 /**
  * Init option
  * @param  {Object} opt - config option
  * ar-chart
  */
-BarChart.prototype.initOption = function (option) {
-  if (option !== null && !Array.isArray(option) && typeof option === 'object') {
-    Object.keys(optionCtrl).forEach(function (key, idx) {
-      if (option[key]) optionCtrl[key] = option[key];
+BarChart.prototype.initOption = function (opt) {
+  var setOption = function setOption (option) {
+    Object.keys(option).forEach(function (key) {
+      if (option[key] && !helpers.isObject(option[key])) optionManager[key] = option[key];
+      else if (helpers.isObject(option[key])) setOption(option[key]);
     });
-  } else throwException(new Error('Option should be a object-type'));
-}
+  };
+  setOption(opt);
+};
 /**
  * Init data of bar-chart
  */
 BarChart.prototype.initBars = function () {
   this.bars = [];
-  var bar_w = this.areaW / (optionCtrl.data.length + 1) / 2;
+  var bar_w = this.areaW / (optionManager.data.length + 1) / 2;
   var next_x_axis = bar_w * 1.5;
   var phyScale = (this.canvasH - 40) / this.tick[1];
-  optionCtrl.data.forEach((val, index) => {
+  optionManager.data.forEach((val, index) => {
     var bar = createBar(next_x_axis + this.yAxis_left, this.canvasH - 26, bar_w, -1 * val * phyScale);
     this.bars.push(bar);
-    next_x_axis += 2 * bar_w ;
-  })
-}
+    next_x_axis += 2 * bar_w;
+  });
+};
 /**
  * [caculateScele description]
  * @return {[type]} [description]
  */
 BarChart.prototype.caculateScele = function () {
   this.tick = helpers.getTick(this.min_data >= 0 ? 0 : this.min_data, this.max_data);
-  this.context.font = `${optionCtrl.fontSize} ${optionCtrl.fontFamily}`;
+  this.context.font = `${optionManager.yAxis.font.size} ${optionManager.yAxis.font.size}`;
   this.yAxis_left = parseInt(2 * this.context.measureText(this.tick[1]).width);
   this.areaW = this.canvasW - this.yAxis_left;
-}
+};
 /**
  * Render bar-chart
  */
@@ -101,20 +104,21 @@ BarChart.prototype.render = function () {
   ctx.translate(0.5, 0.5);
   drawFrame(this);
   this.animation();
-}
+};
 /**
  * Draw bar
  */
 BarChart.prototype.drawBars = function (move_position) {
   var isSelect = false;
-  this.context.fillStyle = optionCtrl.barStyle;
-  this.bars.forEach((bar) => {
+  var self = this;
+  self.bars.forEach(function (bar, idx) {
     if (move_position && (move_position.x >= bar.x && move_position.x <= (bar.x + bar.w)) &&
       (move_position.y <= bar.y && move_position.y >= (bar.y + bar.h))) isSelect = true;
-      else isSelect = false;
-    drawBar(this.context, bar, isSelect);
+    else isSelect = false;
+    drawBar(self.context, bar, isSelect);
+    if (isSelect) showTooltip(self.context, move_position, idx);
   });
-}
+};
 /**
  * [animation description]
  * @return {[type]} [description]
@@ -124,16 +128,16 @@ BarChart.prototype.animation = function () {
   ctx.clearRect(0, 0, this.canvasW, this.canvasH);
   ctx.save();
   drawFrame(this);
-  animIdx -= 10;
-  ctx.rect(0, this.canvasH, this.canvasW, animIdx);
+  this.animQuota -= 10;
+  ctx.rect(0, this.canvasH, this.canvasW, this.animQuota);
   ctx.clip();
   this.drawBars();
-  if (animIdx > -1 * this.canvasH) {
+  if (this.animQuota > -1 * this.canvasH) {
     const anim = this.animation.bind(this);
     helpers.requestAnimationFrame()(anim);
   }
   ctx.restore();
-}
+};
 /**
  * Bar-chart constructor
  */
@@ -142,6 +146,6 @@ function BarChart (canvasDom, opt) {
     throwException(new Error('BarChart is constructor, should be involed with "new" operator!'));
   }
   this._init(canvasDom, opt);
-}
+};
 
 export default BarChart;
