@@ -23,17 +23,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reming0227/bar-chart.git"
+    "url": "git+https://github.com/reming0227/bar-chartjs.git"
   },
   "keywords": [
+    "bar-chartjs",
     "bar-chart",
     "bar",
+    "chartjs",
     "chart"
   ],
   "author": "Reming",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/reming0227/bar-chart/issues"
+    "url": "https://github.com/reming0227/bar-chartjs/issues"
   },
-  "homepage": "https://github.com/reming0227/bar-chart#readme"
+  "homepage": "https://github.com/reming0227/bar-chartjs#readme"
 }
