@@ -51,7 +51,7 @@ export default {
     axis: '#aaa',
     line: '#ccc'
   },
-  duration: 2000,
+  duration: 500,
   tooltip: {
     radius: 4,
     font: {

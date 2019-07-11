@@ -89,19 +89,19 @@ BarChart.prototype.initOption = function (opt) {
  */
 BarChart.prototype.initBars = function () {
   this.bars = [];
+  this.phyScale = (this.areaH - optionManager.margin.top) / this.tick[1];
+
   var bar_w = this.areaW / (optionManager.data.length + 1) / 2;
   var next_x_axis = bar_w * 1.5;
-  var phyScale = (this.areaH - optionManager.margin.top) / this.tick[1];
   optionManager.data.forEach((val, index) => {
-    var bar = createBar(next_x_axis + this.yAxis_left, this.areaH, bar_w, -1 * val * phyScale);
+    var bar = createBar(next_x_axis + this.yAxis_left, this.areaH, bar_w, -1 * val * this.phyScale);
     this.bars.push(bar);
     next_x_axis += 2 * bar_w;
   });
 };
 
 /**
- * [caculateScele description]
- * @return {[type]} [description]
+ * Saculate scalue
  */
 BarChart.prototype.caculateScele = function () {
   this.tick = helpers.getTick(this.min_data >= 0 ? 0 : this.min_data, this.max_data);
@@ -126,7 +126,6 @@ BarChart.prototype.render = function () {
  */
 BarChart.prototype.drawBars = function (move_position) {
   var self = this, isSelect = false, selIdx = -1;
-
   self.bars.forEach(function (bar, idx) {
     if (move_position && (move_position.x >= bar.x && move_position.x <= (bar.x + bar.w)) &&
       (move_position.y <= bar.y && move_position.y >= (bar.y + bar.h))) selIdx = idx;
@@ -140,16 +139,17 @@ BarChart.prototype.drawBars = function (move_position) {
  * @return {[type]} [description]
  */
 BarChart.prototype.animation = function () {
-  const ctx = this.context;
+  var ctx = this.context;
+  var tickMove = (this.max_data * this.phyScale) / (optionManager.duration * 1e-3 * 60);
   ctx.clearRect(0, 0, this.canvasW, this.canvasH);
   ctx.save();
   drawFrame(this);
-  this.animQuota -= 10;
-  ctx.rect(0, this.canvasH, this.canvasW, this.animQuota);
+  this.animQuota -= tickMove;
+  ctx.rect(0, this.canvasH - optionManager.margin.bottom, this.canvasW, this.animQuota);
   ctx.clip();
   this.drawBars();
-  if (this.animQuota > -1 * this.canvasH) {
-    const anim = this.animation.bind(this);
+  if (this.animQuota > -1 * this.max_data * this.phyScale) {
+    var anim = this.animation.bind(this);
     helpers.requestAnimationFrame()(anim);
   }
   ctx.restore();
