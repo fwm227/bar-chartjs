@@ -14,6 +14,7 @@ function createBar () {
   });
   return bar;
 }
+
 /**
  * Draw bar
  */

@@ -1,6 +1,12 @@
 import optionManager from './option.js';
 
-function showTooltip (ctx, move_position, idx) {
+/**
+ * Draw tooltip
+ * @param  {Object} ctx           the context of bar-chart
+ * @param  {Object} move_position move-position of mouse
+ * @param  {Number} idx           select index
+ */
+function drawTooltip (ctx, move_position, idx) {
   var tooltipText = `${optionManager.labels[idx]}: ${optionManager.data[idx]}`;
   ctx.font = `${optionManager.tooltip.font.size}px ${optionManager.tooltip.font.family}`;
   var width = ctx.measureText(tooltipText).width;
@@ -26,4 +32,4 @@ function showTooltip (ctx, move_position, idx) {
   ctx.fillText(tooltipText, move_position.x + 10, move_position.y + 15);
 }
 
-export default showTooltip;
+export default drawTooltip;

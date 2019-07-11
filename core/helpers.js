@@ -1,13 +1,19 @@
 var helpers = {
+  /**
+   * Check whether is object
+   * @param  {Target}  target check target
+   * @return {Boolean}        return result
+   */
   isObject: function (target) {
     return typeof target === 'object' && Object.prototype.toString.call(target) === '[object Object]';
   },
+
   /**
    * Format tick
-   * @param  {[type]} minTick    min tick
-   * @param  {[type]} maxTick    max tick
-   * @param  {[type]} stepNumber step number
-   * @return {[type]}            format tick
+   * @param  {Number} minTick    min tick
+   * @param  {Number} maxTick    max tick
+   * @param  {Number} stepNumber step number
+   * @return {Tick}              tick formatted
    */
   formatTick: function () {
     var ticks = [];
@@ -52,6 +58,13 @@ var helpers = {
       else return ticks;
     };
   },
+
+  /**
+   * Get suitable step
+   * @param  {Number} minTick min tick
+   * @param  {Number} maxTick max tick
+   * @return {Array}         suitable tick
+   */
   getSuitableStep: function (minTick, maxTick) {
     var step, formatMax = maxTick;
     var caculateTicks = this.formatTick();
@@ -70,16 +83,18 @@ var helpers = {
     });
     return ticks[idxTag];
   },
+
   /**
-   * Get ticks
+   * Get tick
    * @param  {Number} minTick - min tick
    * @param  {Number} maxTick - max tick
    * @param  {Number} stepNumber - step number
-   * @return {Array}            ticks of bar-chart
+   * @return {Array}            tick of bar-chart
    */
   getTick: function (minTick, maxTick) {
     return this.getSuitableStep(minTick, maxTick);
   },
+
   /**
    * Animation request
    * @return {Function} animatin function

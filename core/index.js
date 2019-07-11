@@ -2,7 +2,7 @@ import {createBar, drawBar} from './bar.js';
 import drawFrame from './frame.js';
 import helpers from './helpers.js';
 import optionManager from './option.js';
-import showTooltip from './tooltip.js';
+import drawTooltip from './tooltip.js';
 
 /**
  * Throw exception
@@ -11,10 +11,11 @@ import showTooltip from './tooltip.js';
 function throwException (err) {
   throw err;
 }
+
 /**
  * Init bar-chart
  * @param  {[type]} ctx     context of bar-chart
- * @param  {[type]} options - config options
+ * @param  {[type]} options config options
  */
 BarChart.prototype._init = function (canvasDom, option) {
   this.initContext(canvasDom);
@@ -25,6 +26,11 @@ BarChart.prototype._init = function (canvasDom, option) {
   this.initEvent(canvasDom);
   this.render();
 };
+
+/**
+ * Init event
+ * @param  {Dom} canvasDom canvas dom
+ */
 BarChart.prototype.initEvent = function (canvasDom) {
   var self = this;
   var mouse_position = Object.create(null);
@@ -40,14 +46,19 @@ BarChart.prototype.initEvent = function (canvasDom) {
     }, 1000 / 60);
   });
 };
+
+/**
+ * Init data
+ */
 BarChart.prototype.initData = function () {
   this.animQuota = 0;
   this.min_data = Math.min(...optionManager.data);
   this.max_data = Math.max(...optionManager.data);
 };
+
 /**
  * Init context
- * @param  {Object} ctx - context of bar-chart
+ * @param  {Object} ctx context of bar-chart
  */
 BarChart.prototype.initContext = function (canvasDom) {
   this.boundingRect = canvasDom.getBoundingClientRect();
@@ -58,20 +69,21 @@ BarChart.prototype.initContext = function (canvasDom) {
   }
   else throwException(new Error('Context should be a canvas DOM'));
 };
+
 /**
  * Init option
  * @param  {Object} opt - config option
- * ar-chart
  */
 BarChart.prototype.initOption = function (opt) {
-  var setOption = function setOption (option) {
+  var setOption = function setOption (option, optionManager) {
     Object.keys(option).forEach(function (key) {
       if (option[key] && !helpers.isObject(option[key])) optionManager[key] = option[key];
-      else if (helpers.isObject(option[key])) setOption(option[key]);
+      else if (helpers.isObject(option[key])) setOption(option[key], optionManager[key]);
     });
   };
-  setOption(opt);
+  setOption(opt, optionManager);
 };
+
 /**
  * Init data of bar-chart
  */
@@ -79,13 +91,14 @@ BarChart.prototype.initBars = function () {
   this.bars = [];
   var bar_w = this.areaW / (optionManager.data.length + 1) / 2;
   var next_x_axis = bar_w * 1.5;
-  var phyScale = (this.canvasH - 40) / this.tick[1];
+  var phyScale = (this.areaH - optionManager.margin.top) / this.tick[1];
   optionManager.data.forEach((val, index) => {
-    var bar = createBar(next_x_axis + this.yAxis_left, this.canvasH - 26, bar_w, -1 * val * phyScale);
+    var bar = createBar(next_x_axis + this.yAxis_left, this.areaH, bar_w, -1 * val * phyScale);
     this.bars.push(bar);
     next_x_axis += 2 * bar_w;
   });
 };
+
 /**
  * [caculateScele description]
  * @return {[type]} [description]
@@ -95,7 +108,9 @@ BarChart.prototype.caculateScele = function () {
   this.context.font = `${optionManager.yAxis.font.size} ${optionManager.yAxis.font.size}`;
   this.yAxis_left = parseInt(2 * this.context.measureText(this.tick[1]).width);
   this.areaW = this.canvasW - this.yAxis_left;
+  this.areaH = this.canvasH - optionManager.margin.bottom;
 };
+
 /**
  * Render bar-chart
  */
@@ -105,20 +120,21 @@ BarChart.prototype.render = function () {
   drawFrame(this);
   this.animation();
 };
+
 /**
  * Draw bar
  */
 BarChart.prototype.drawBars = function (move_position) {
-  var isSelect = false;
-  var self = this;
+  var self = this, isSelect = false, selIdx = -1;
+
   self.bars.forEach(function (bar, idx) {
     if (move_position && (move_position.x >= bar.x && move_position.x <= (bar.x + bar.w)) &&
-      (move_position.y <= bar.y && move_position.y >= (bar.y + bar.h))) isSelect = true;
-    else isSelect = false;
+      (move_position.y <= bar.y && move_position.y >= (bar.y + bar.h))) selIdx = idx;
     drawBar(self.context, bar, isSelect);
-    if (isSelect) showTooltip(self.context, move_position, idx);
   });
+  if (~selIdx) drawTooltip(self.context, move_position, selIdx);
 };
+
 /**
  * [animation description]
  * @return {[type]} [description]
@@ -138,6 +154,7 @@ BarChart.prototype.animation = function () {
   }
   ctx.restore();
 };
+
 /**
  * Bar-chart constructor
  */

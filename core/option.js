@@ -1,6 +1,10 @@
 export default {
   data: [],
   labels: [],
+  margin: {
+    top: 30,
+    bottom: 30
+  },
   xAxis: {
     font: {
       size: 13,
@@ -10,6 +14,11 @@ export default {
     line: {
       style: '#333',
       width: 1
+    },
+    tick: {
+      style: '#333',
+      width: 1,
+      length: 6
     }
   },
   yAxis: {
@@ -19,9 +28,18 @@ export default {
       style: '#333'
     },
     line: {
-      style: '#aaa',
+      style: '#333',
       width: 1
+    },
+    tick: {
+      style: '#333',
+      width: 1,
+      length: 6
     }
+  },
+  guideLine: {
+    style: '#ccc',
+    width: 1
   },
   bar: {
     style: {
