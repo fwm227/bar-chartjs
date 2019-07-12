@@ -53,6 +53,8 @@ export default {
   },
   duration: 500,
   tooltip: {
+    title: 'Value：',
+    height: 50,
     radius: 4,
     font: {
       size: 14,

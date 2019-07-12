@@ -131,12 +131,13 @@ BarChart.prototype.drawBars = function (move_position) {
       (move_position.y <= bar.y && move_position.y >= (bar.y + bar.h))) selIdx = idx;
     drawBar(self.context, bar, isSelect);
   });
-  if (~selIdx) drawTooltip(self.context, move_position, selIdx);
+  if (~selIdx) {
+    drawTooltip(self.context, move_position, selIdx);
+  }
 };
 
 /**
- * [animation description]
- * @return {[type]} [description]
+ * Animation
  */
 BarChart.prototype.animation = function () {
   var ctx = this.context;
