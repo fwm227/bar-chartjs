@@ -53,9 +53,14 @@ export default {
   },
   duration: 500,
   tooltip: {
-    title: 'Value：',
+    title: '',
+    style: 'rgba(0, 0, 0, 0.6)',
     height: 50,
     radius: 4,
+    mark: {
+      radius: 5,
+      style: 'rgb(16, 142, 233)'
+    },
     font: {
       size: 14,
       family: 'Arial',
