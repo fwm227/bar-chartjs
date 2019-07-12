@@ -1,6 +1,6 @@
 {
   "name": "bar-chartjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The bar-chart visualization plugin",
   "main": "lib/index.min.js",
   "directories": {

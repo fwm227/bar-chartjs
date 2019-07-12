@@ -77,11 +77,11 @@ function drawXAxisLabel (ctx, yAxis_left, area_w, area_h) {
  * @param  {Object} ctx        context of bar-chart
  * @param  {Array} tick        tick infomation
  * @param  {Number} yAxis_left margin-left
+ * @param  {Number} phyStep    real pixel of step
  * @param  {Number} area_w     area width
  * @param  {Number} area_h     area height
  */
-function drawYAxisLabel (ctx, tick, yAxis_left, area_w, area_h) {
-  var phyStep = (area_h - optionManager.margin.top) / tick[3];
+function drawYAxisLabel (ctx, tick, yAxis_left, phyStep, area_w, area_h) {
   var tickLength = optionManager.yAxis.tick.length;
 
   ctx.textBaseline = 'middle';
@@ -90,12 +90,12 @@ function drawYAxisLabel (ctx, tick, yAxis_left, area_w, area_h) {
   ctx.fillStyle = optionManager.yAxis.font.style;
   for (var i = 0; i <= tick[3]; i++) {
     ctx.beginPath();
-    ctx.fillText(tick[2] * i, yAxis_left - 10, area_h - i * phyStep);
+    ctx.fillText(tick[2] * i, yAxis_left - 10, Math.round(area_h - i * phyStep));
 
     ctx.strokeStyle = optionManager.yAxis.tick.style;
     ctx.lineWidth = optionManager.yAxis.tick.width;
-    ctx.moveTo(yAxis_left - tickLength, area_h - i * phyStep);
-    ctx.lineTo(yAxis_left, area_h - i * phyStep);
+    ctx.moveTo(yAxis_left - tickLength, Math.round(area_h - i * phyStep));
+    ctx.lineTo(yAxis_left, Math.round(area_h - i * phyStep));
     ctx.closePath();
     ctx.stroke();
 
@@ -103,8 +103,8 @@ function drawYAxisLabel (ctx, tick, yAxis_left, area_w, area_h) {
     ctx.beginPath();
     ctx.strokeStyle = optionManager.guideLine.style;
     ctx.lineWidth = optionManager.guideLine.width;
-    ctx.moveTo(yAxis_left, area_h - i * phyStep);
-    ctx.lineTo(area_w + yAxis_left, area_h - i * phyStep);
+    ctx.moveTo(yAxis_left, Math.round(area_h - i * phyStep));
+    ctx.lineTo(area_w + yAxis_left, Math.round(area_h - i * phyStep));
     ctx.closePath();
     ctx.stroke();
   }
@@ -118,13 +118,14 @@ function drawYAxisLabel (ctx, tick, yAxis_left, area_w, area_h) {
 function drawFrame (barChart) {
   var ctx = barChart.context;
   var tick = barChart.tick;
+  var phyStep = barChart.phyScale * tick[2];
   var yAxis_left = barChart.yAxis_left;
   var area_w = barChart.areaW;
   var area_h = barChart.areaH;
 
   drawAxis(ctx, yAxis_left, area_w, area_h);
   drawXAxisLabel(ctx, yAxis_left, area_w, area_h);
-  drawYAxisLabel(ctx, tick, yAxis_left, area_w, area_h);
+  drawYAxisLabel(ctx, tick, yAxis_left, phyStep, area_w, area_h);
 }
 
 export default drawFrame;

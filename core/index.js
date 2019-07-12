@@ -90,7 +90,6 @@ BarChart.prototype.initOption = function (opt) {
 BarChart.prototype.initBars = function () {
   this.bars = [];
   this.phyScale = (this.areaH - optionManager.margin.top) / this.tick[1];
-
   var bar_w = this.areaW / (optionManager.data.length + 1) / 2;
   var next_x_axis = bar_w * 1.5;
   optionManager.data.forEach((val, index) => {
