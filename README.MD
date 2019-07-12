@@ -34,13 +34,13 @@ new BarChart(canvas, Option);
 
 ```javascript
 {
-  data: [],
-  labels: [],
-  margin: {
+  data: [], // data of y-axis
+  labels: [], // data of x-axis
+  margin: { // margin-space
     top: 30,
     bottom: 30
   },
-  xAxis: {
+  xAxis: { // config of x-axis
     font: {
       size: 13,
       family: 'Arial',
@@ -56,7 +56,7 @@ new BarChart(canvas, Option);
       length: 6
     }
   },
-  yAxis: {
+  yAxis: { // config of y-axis
     font: {
       size: 13,
       family: 'Arial',
@@ -72,22 +72,20 @@ new BarChart(canvas, Option);
       length: 6
     }
   },
-  guideLine: {
+  guideLine: { // config of guide-line
     style: '#ccc',
     width: 1
   },
-  bar: {
+  bar: { // config of bar
     style: {
       default: 'rgba(16, 142, 233, 0.6)',
       select: 'rgb(16, 142, 233)',
     }
   },
-  style: {
-    axis: '#aaa',
-    line: '#ccc'
-  },
-  duration: 2000,
-  tooltip: {
+  duration: 500, // duration of animation
+  tooltip: { // config of tooltip
+    title: 'Value：',
+    height: 50,
     radius: 4,
     font: {
       size: 14,
