@@ -2,7 +2,7 @@
 
 > The bar-chart visualization plugin
 
-[![Build Status](https://travis-ci.org/reming0227/bar-chartjs.svg?branch=master)](https://travis-ci.org/reming0227/bar-chartjs) [![Version](https://img.shields.io/badge/npm-0.0.5-blue.svg)](https://www.npmjs.com/package/bar-chartjs)
+[![Build Status](https://travis-ci.org/reming0227/bar-chartjs.svg?branch=master)](https://travis-ci.org/reming0227/bar-chartjs) [![Version](https://img.shields.io/badge/npm-1.0.0-blue.svg)](https://www.npmjs.com/package/bar-chartjs)
 
 ## 📦 Installation
 
@@ -84,9 +84,14 @@ new BarChart(canvas, Option);
   },
   duration: 500, // duration of animation
   tooltip: { // config of tooltip
-    title: 'Value：',
+    title: '',
+    style: 'rgba(0, 0, 0, 0.6)',
     height: 50,
     radius: 4,
+    mark: { // config of mark
+      radius: 5,
+      style: 'rgb(16, 142, 233)'
+    },
     font: {
       size: 14,
       family: 'Arial',
