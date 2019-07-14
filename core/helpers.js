@@ -40,7 +40,10 @@ var helpers = {
       formatStep *= tempStep;
 
       // modify min-tick
-      if (parseInt(minTick / formatStep) !== (minTick / formatStep)) minTick = parseInt(minTick / formatStep) * formatStep;
+      if (parseInt(minTick / formatStep) !== (minTick / formatStep)) {
+        if (minTick < 0) minTick = -1 * Math.ceil(Math.abs(minTick / formatStep)) * formatStep;
+        else minTick = parseInt(minTick / formatStep) * formatStep;
+      }
       // modify max-tick
       if (parseInt(maxTick / formatStep) !== (maxTick / formatStep)) maxTick = (parseInt(maxTick / formatStep) + 1) * formatStep;
       // modify step-number

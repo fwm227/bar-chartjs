@@ -33,12 +33,12 @@ BarChart.prototype._init = function (canvasDom, option) {
  */
 BarChart.prototype.initEvent = function (canvasDom) {
   var self = this;
+
   var mouse_position = Object.create(null);
   canvasDom.addEventListener('mousemove', function () {
     mouse_position.x = event.clientX - self.boundingRect.left;
     mouse_position.y = event.clientY - self.boundingRect.top;
 
-    clearTimeout(timer);
     var timer = setTimeout(function () {
       self.context.clearRect(0, 0, self.canvasW, self.canvasH);
       drawFrame(self);
@@ -88,13 +88,15 @@ BarChart.prototype.initOption = function (opt) {
  * Init data of bar-chart
  */
 BarChart.prototype.initBars = function () {
-  this.bars = [];
-  this.phyScale = (this.areaH - optionManager.margin.top) / this.tick[1];
-  var bar_w = this.areaW / (optionManager.data.length + 1) / 2;
+  var self = this;
+
+  self.bars = [];
+  self.phyScale = (self.areaH - optionManager.margin.top) / (self.tick[1] - self.tick[0]);
+  var bar_w = self.areaW / (optionManager.data.length + 1) / 2;
   var next_x_axis = bar_w * 1.5;
-  optionManager.data.forEach((val, index) => {
-    var bar = createBar(next_x_axis + this.yAxis_left, this.areaH, bar_w, -1 * val * this.phyScale);
-    this.bars.push(bar);
+  optionManager.data.forEach(function (val, index) {
+    var bar = createBar(next_x_axis + self.yAxis_left, self.areaH + self.tick[0] * self.phyScale, bar_w, -1 * val * self.phyScale);
+    self.bars.push(bar);
     next_x_axis += 2 * bar_w;
   });
 };
@@ -103,11 +105,13 @@ BarChart.prototype.initBars = function () {
  * Saculate scalue
  */
 BarChart.prototype.caculateScele = function () {
-  this.tick = helpers.getTick(this.min_data >= 0 ? 0 : this.min_data, this.max_data);
-  this.context.font = `${optionManager.yAxis.font.size} ${optionManager.yAxis.font.size}`;
-  this.yAxis_left = parseInt(2 * this.context.measureText(this.tick[1]).width);
-  this.areaW = this.canvasW - this.yAxis_left;
-  this.areaH = this.canvasH - optionManager.margin.bottom;
+  var self = this;
+
+  self.tick = helpers.getTick(self.min_data >= 0 ? 0 : self.min_data, self.max_data);
+  self.context.font = `${optionManager.yAxis.font.size} ${optionManager.yAxis.font.size}`;
+  self.yAxis_left = parseInt(3 * self.context.measureText(self.tick[1]).width);
+  self.areaW = self.canvasW - self.yAxis_left;
+  self.areaH = self.canvasH - optionManager.margin.bottom;
 };
 
 /**
@@ -125,14 +129,13 @@ BarChart.prototype.render = function () {
  */
 BarChart.prototype.drawBars = function (move_position) {
   var self = this, isSelect = false, selIdx = -1;
+
   self.bars.forEach(function (bar, idx) {
     if (move_position && (move_position.x >= bar.x && move_position.x <= (bar.x + bar.w)) &&
       (move_position.y <= bar.y && move_position.y >= (bar.y + bar.h))) selIdx = idx;
     drawBar(self.context, bar, isSelect);
   });
-  if (~selIdx) {
-    drawTooltip(self.context, move_position, selIdx);
-  }
+  if (~selIdx) drawTooltip(self.context, move_position, selIdx);
 };
 
 /**
@@ -141,14 +144,23 @@ BarChart.prototype.drawBars = function (move_position) {
 BarChart.prototype.animation = function () {
   var ctx = this.context;
   var tickMove = (this.max_data * this.phyScale) / (optionManager.duration * 1e-3 * 60);
+  var baseLineH = this.canvasH + this.tick[0] * this.phyScale - optionManager.margin.bottom;
   ctx.clearRect(0, 0, this.canvasW, this.canvasH);
   ctx.save();
   drawFrame(this);
   this.animQuota -= tickMove;
-  ctx.rect(0, this.canvasH - optionManager.margin.bottom, this.canvasW, this.animQuota);
+  var temp = this.animQuota;
+  ctx.beginPath();
+  ctx.rect(0, baseLineH - temp, this.canvasW, 2 * temp);
+  ctx.closePath();
   ctx.clip();
+
+  /*ctx.beginPath();
+  ctx.rect(0, baseLineH, this.canvasW, -1 * temp);
+  ctx.closePath();
+  ctx.clip();*/
   this.drawBars();
-  if (this.animQuota > -1 * this.max_data * this.phyScale) {
+  if (this.animQuota > -500) {
     var anim = this.animation.bind(this);
     helpers.requestAnimationFrame()(anim);
   }

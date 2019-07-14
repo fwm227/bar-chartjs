@@ -26,11 +26,12 @@ import optionManager from './option.js';
 /**
  * Draw Axis
  * @param  {Object} ctx        context of bar-chart
+ * @param  {Number} base_pos the position of line that mark zero in y-axis
  * @param  {Number} yAxis_left margin-left
  * @param  {Number} area_w     area width
  * @param  {Number} area_h     area height
  */
-function drawAxis (ctx, yAxis_left, area_w, area_h) {
+function drawAxis (ctx, base_pos, yAxis_left, area_w, area_h) {
   ctx.beginPath();
   ctx.strokeStyle = optionManager.yAxis.line.style;
   ctx.lineWidth = optionManager.yAxis.line.width;
@@ -41,8 +42,8 @@ function drawAxis (ctx, yAxis_left, area_w, area_h) {
   ctx.beginPath();
   ctx.strokeStyle = optionManager.xAxis.line.style;
   ctx.lineWidth = optionManager.xAxis.line.width;
-  ctx.moveTo(yAxis_left, area_h);
-  ctx.lineTo(area_w + yAxis_left, area_h);
+  ctx.moveTo(yAxis_left, base_pos);
+  ctx.lineTo(area_w + yAxis_left, base_pos);
   ctx.stroke();
 }
 
@@ -83,14 +84,14 @@ function drawXAxisLabel (ctx, yAxis_left, area_w, area_h) {
  */
 function drawYAxisLabel (ctx, tick, yAxis_left, phyStep, area_w, area_h) {
   var tickLength = optionManager.yAxis.tick.length;
-
+  var yStepAcc = tick[0];
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'right';
   ctx.font = `${optionManager.yAxis.font.size}px ${optionManager.yAxis.font.family}`;
   ctx.fillStyle = optionManager.yAxis.font.style;
-  for (var i = 0; i <= tick[3]; i++) {
+  for (var i = 0; i <= tick[3]; i++, yStepAcc += tick[2]) {
     ctx.beginPath();
-    ctx.fillText(tick[2] * i, yAxis_left - 10, Math.round(area_h - i * phyStep));
+    ctx.fillText(yStepAcc, yAxis_left - 10, Math.round(area_h - i * phyStep));
 
     ctx.strokeStyle = optionManager.yAxis.tick.style;
     ctx.lineWidth = optionManager.yAxis.tick.width;
@@ -99,7 +100,7 @@ function drawYAxisLabel (ctx, tick, yAxis_left, phyStep, area_w, area_h) {
     ctx.closePath();
     ctx.stroke();
 
-    if (i === 0) continue;
+    if (i === Math.abs(tick[0]) / tick[2]) continue;
     ctx.beginPath();
     ctx.strokeStyle = optionManager.guideLine.style;
     ctx.lineWidth = optionManager.guideLine.width;
@@ -122,8 +123,8 @@ function drawFrame (barChart) {
   var yAxis_left = barChart.yAxis_left;
   var area_w = barChart.areaW;
   var area_h = barChart.areaH;
-
-  drawAxis(ctx, yAxis_left, area_w, area_h);
+  var base_pos = area_h + Math.round(tick[0] * barChart.phyScale);
+  drawAxis(ctx, base_pos, yAxis_left, area_w, area_h);
   drawXAxisLabel(ctx, yAxis_left, area_w, area_h);
   drawYAxisLabel(ctx, tick, yAxis_left, phyStep, area_w, area_h);
 }
