@@ -65,9 +65,10 @@ function drawXAxisLabel (ctx, yAxis_left, area_w, area_h) {
   ctx.font = `${optionManager.xAxis.font.size}px ${optionManager.xAxis.font.family}`;
   ctx.fillStyle = optionManager.xAxis.font.style;
   for (var i = 1; i <= labels.length; i++) {
-    ctx.moveTo(yAxis_left + i * x_step, area_h);
-    ctx.lineTo(yAxis_left + i * x_step, area_h + tickLength);
-    ctx.fillText(labels[i - 1], yAxis_left + i * x_step, area_h + 20);
+    var x_pos = Math.round(i * x_step);
+    ctx.moveTo(yAxis_left + x_pos, area_h);
+    ctx.lineTo(yAxis_left + x_pos, area_h + tickLength);
+    ctx.fillText(labels[i - 1], yAxis_left + x_pos, area_h + 20);
   }
   ctx.closePath();
   ctx.stroke();
