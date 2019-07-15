@@ -6,12 +6,12 @@ import optionManager from './option.js';
  * @param  {Object} move_position move-position of mouse
  * @param  {Number} idx           select index
  */
-function drawTooltip (ctx, move_position, idx) {
+function drawTooltip (ctx, move_position, info) {
   var markRadius = optionManager.tooltip.mark.radius;
-  var tooltipText = `${optionManager.tooltip.title}${optionManager.data[idx]}`;
+  var tooltipText = `${optionManager.tooltip.title} ${info.data_val}`;
   ctx.font = `${optionManager.tooltip.font.size}px ${optionManager.tooltip.font.family}`;
   var descWidth = ctx.measureText(tooltipText).width;
-  var titleWidth = ctx.measureText(optionManager.labels[idx]).width;
+  var titleWidth = ctx.measureText(info.label_val).width;
   var width = descWidth > titleWidth ? descWidth : titleWidth;
   width += 3 * markRadius;
   var additionWidth = 12;
@@ -42,7 +42,7 @@ function drawTooltip (ctx, move_position, idx) {
   ctx.fillStyle = '#fff';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'middle';
-  ctx.fillText(optionManager.labels[idx], moveX + additionWidth / 2, moveY + 0.85 * tooltipHeight / 3);
+  ctx.fillText(info.label_val, moveX + additionWidth / 2, moveY + 0.85 * tooltipHeight / 3);
   ctx.fillText(tooltipText, moveX + additionWidth / 2 + 3 * markRadius, moveY + 2.1 * tooltipHeight / 3);
   ctx.closePath();
   ctx.stroke();

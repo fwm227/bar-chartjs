@@ -34,15 +34,16 @@ BarChart.prototype._init = function (canvasDom, option) {
 BarChart.prototype.initEvent = function (canvasDom) {
   var self = this;
 
-  var mouse_position = Object.create(null);
+  var move_position = Object.create(null);
   canvasDom.addEventListener('mousemove', function () {
-    mouse_position.x = event.clientX - self.boundingRect.left;
-    mouse_position.y = event.clientY - self.boundingRect.top;
+    move_position.x = event.clientX - self.boundingRect.left;
+    move_position.y = event.clientY - self.boundingRect.top;
 
+    clearTimeout(timer);
     var timer = setTimeout(function () {
       self.context.clearRect(0, 0, self.canvasW, self.canvasH);
       drawFrame(self);
-      self.drawBars(mouse_position);
+      self.drawBars(move_position);
     }, 1000 / 60);
   });
 };
@@ -53,13 +54,14 @@ BarChart.prototype.initEvent = function (canvasDom) {
 BarChart.prototype.initData = function () {
   if (optionManager.series.length > 1) this.series = true;
 
-  this.animQuota = 0;
+  this.animIdx = 0;
   var totalData = [];
   optionManager.series.forEach(function (item, idx) {
     totalData = totalData.concat(item.data);
   });
   this.min_data = Math.min(...totalData);
   this.max_data = Math.max(...totalData);
+  this.max_abs_data = Math.max(Math.abs(this.min_data), Math.abs(this.max_data));
 };
 
 /**
@@ -112,7 +114,7 @@ BarChart.prototype.initBars = function () {
       item.style.active = optionManager.defaultBar.style.select;
     }
     item.data.forEach(function (val, idx) {
-      var bar = createBar(big_step + small_step + self.yAxis_left, self.areaH + self.tick[0] * self.phyScale, bar_w, -1 * val * self.phyScale, item.style.default, item.style.active);
+      var bar = createBar(big_step + small_step + self.yAxis_left, self.areaH + self.tick[0] * self.phyScale, bar_w, -1 * val * self.phyScale, val, item.style.default, item.style.active);
       self.bars.push(bar);
       big_step += step_len;
     });
@@ -146,36 +148,46 @@ BarChart.prototype.render = function () {
  * Draw bar
  */
 BarChart.prototype.drawBars = function (move_position) {
-  var self = this, isSelect = false, selIdx = -1;
-
+  var self = this, isSelect = false, selInfo;
+  var step_len = self.areaW / (optionManager.labels.length + 1);
   self.bars.forEach(function (bar, idx) {
-    if (move_position && (move_position.x >= bar.x && move_position.x <= (bar.x + bar.w)) &&
-      (move_position.y <= bar.y && move_position.y >= (bar.y + bar.h))) selIdx = idx;
+    if (move_position &&
+      (move_position.x > bar.x && move_position.x < (bar.x + bar.w)) && ((
+      move_position.y > (bar.y + bar.h) && move_position.y < bar.y) ||
+      move_position.y > bar.y && move_position.y < (bar.y + bar.h))) {
+      isSelect = true;
+      selInfo = {
+        label_val: optionManager.labels[Math.floor((move_position.x - self.yAxis_left) / step_len)],
+        data_val: bar.val
+      }
+    } else isSelect = false;
     drawBar(self.context, bar, isSelect);
   });
-  if (~selIdx) drawTooltip(self.context, move_position, selIdx);
+  if (selInfo) drawTooltip(self.context, move_position, selInfo);
 };
 
 /**
  * Animation
  */
 BarChart.prototype.animation = function () {
-  var ctx = this.context;
-  var tickMove = (this.max_data * this.phyScale) / (optionManager.duration * 1e-3 * 60);
-  var baseLineH = this.canvasH + this.tick[0] * this.phyScale - optionManager.margin.bottom;
-  ctx.clearRect(0, 0, this.canvasW, this.canvasH);
+  var self = this;
+
+  var ctx = self.context;
+  var tickMove = (self.max_abs_data * self.phyScale) / (optionManager.duration * 1e-3 * 60);
+  var baseLineH = self.canvasH + self.tick[0] * self.phyScale - optionManager.margin.bottom;
+  ctx.clearRect(0, 0, self.canvasW, self.canvasH);
   ctx.save();
-  drawFrame(this);
-  this.animQuota -= tickMove;
-  var temp = this.animQuota;
+  drawFrame(self);
+  self.animIdx -= tickMove;
+  var temp = self.animIdx;
   ctx.beginPath();
-  ctx.rect(0, baseLineH - temp, this.canvasW, 2 * temp);
+  ctx.rect(0, baseLineH - temp, self.canvasW, 2 * temp);
   ctx.closePath();
   ctx.clip();
 
-  this.drawBars();
-  if (this.animQuota > -500) {
-    var anim = this.animation.bind(this);
+  self.drawBars();
+  if (self.animIdx > -1 * self.max_abs_data * self.phyScale) {
+    var anim = self.animation.bind(self);
     helpers.requestAnimationFrame()(anim);
   }
   ctx.restore();
