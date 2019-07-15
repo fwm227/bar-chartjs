@@ -18,6 +18,7 @@ yarn add bar-chartjs
 ```
 
 ## 🔨 Usage
+
 ```html
 <canvas id="canvas"></canvas>
 ```
