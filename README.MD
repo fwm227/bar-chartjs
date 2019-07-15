@@ -2,7 +2,7 @@
 
 > The bar-chart visualization plugin
 
-[![Build Status](https://travis-ci.org/reming0227/bar-chartjs.svg?branch=master)](https://travis-ci.org/reming0227/bar-chartjs) [![Version](https://img.shields.io/badge/npm-1.0.3-blue.svg)](https://www.npmjs.com/package/bar-chartjs)
+[![Build Status](https://travis-ci.org/reming0227/bar-chartjs.svg?branch=master)](https://travis-ci.org/reming0227/bar-chartjs) [![Version](https://img.shields.io/badge/npm-1.1.0-blue.svg)](https://www.npmjs.com/package/bar-chartjs)
 
 ## 📦 Installation
 
@@ -20,7 +20,7 @@ yarn add bar-chartjs
 ## 🔨 Usage
 
 ```html
-<canvas id="canvas"></canvas>
+<canvas id="canvas" width="600" height="400"></canvas>
 ```
 ```javascript
 var canvas = document.querySelector('#canvas');
@@ -70,7 +70,7 @@ new BarChart(canvas, Option);
 
 ```javascript
 {
-  series: [{
+  series: [{ // config multiple bar
     style: {
       default: 'rgba(16, 142, 233, 0.6)',
       select: 'rgb(16, 142, 233)'
@@ -78,12 +78,12 @@ new BarChart(canvas, Option);
     data: []
   },
   ...],
-  labels: [],
+  labels: [], // set data of x-axis
   margin: {
     top: 30,
     bottom: 30
   },
-  xAxis: {
+  xAxis: { // config style of x-axis
     font: {
       size: 13,
       family: 'Arial',
@@ -99,7 +99,7 @@ new BarChart(canvas, Option);
       length: 6
     }
   },
-  yAxis: {
+  yAxis: { // config style of y-axis
     font: {
       size: 13,
       family: 'Arial',
@@ -115,7 +115,7 @@ new BarChart(canvas, Option);
       length: 6
     }
   },
-  guideLine: {
+  guideLine: { // config style of guide-line
     style: '#ccc',
     width: 1
   },
@@ -125,8 +125,8 @@ new BarChart(canvas, Option);
       select: 'rgb(16, 142, 233)'
     }
   },
-  duration: 500,
-  tooltip: {
+  duration: 500, // set duration of animation
+  tooltip: { // config tooltip
     title: '',
     style: 'rgba(0, 0, 0, 0.6)',
     height: 50,
