@@ -24,8 +24,43 @@ yarn add bar-chartjs
 ```javascript
 var canvas = document.querySelector('#canvas');
 var Option = {
-  data: [50, 270, 100],
-  labels: ['Mon', 'Tues', 'Wed']
+  labels: ['Mon', 'Tues', 'Wed'],
+  series: [{
+    style: {
+      default: 'blue',
+      active: 'red'
+    },
+    data: [
+     100,
+     230,
+     170]
+  },
+  {
+    style: {
+      default: 'yellow',
+      active: 'red'
+    },
+    data: [
+     -170,
+     170,
+     100]
+  },
+  {
+    data: [
+     170,
+     20,
+     -80]
+  },
+  {
+    style: {
+      default: 'green',
+      active: 'red'
+    },
+    data: [
+     170,
+     170,
+     -230]
+  }]
 };
 new BarChart(canvas, Option);
 ```
@@ -34,13 +69,20 @@ new BarChart(canvas, Option);
 
 ```javascript
 {
-  data: [], // data of y-axis
-  labels: [], // data of x-axis
-  margin: { // margin-space
+  series: [{
+    style: {
+      default: 'rgba(16, 142, 233, 0.6)',
+      select: 'rgb(16, 142, 233)'
+    },
+    data: []
+  },
+  ...],
+  labels: [],
+  margin: {
     top: 30,
     bottom: 30
   },
-  xAxis: { // config of x-axis
+  xAxis: {
     font: {
       size: 13,
       family: 'Arial',
@@ -56,7 +98,7 @@ new BarChart(canvas, Option);
       length: 6
     }
   },
-  yAxis: { // config of y-axis
+  yAxis: {
     font: {
       size: 13,
       family: 'Arial',
@@ -72,30 +114,29 @@ new BarChart(canvas, Option);
       length: 6
     }
   },
-  guideLine: { // config of guide-line
+  guideLine: {
     style: '#ccc',
     width: 1
   },
-  bar: { // config of bar
+  defaultBar: { // set default style of bar
     style: {
       default: 'rgba(16, 142, 233, 0.6)',
-      select: 'rgb(16, 142, 233)',
+      select: 'rgb(16, 142, 233)'
     }
   },
-  duration: 500, // duration of animation
-  tooltip: { // config of tooltip
+  duration: 500,
+  tooltip: {
     title: '',
     style: 'rgba(0, 0, 0, 0.6)',
     height: 50,
     radius: 4,
-    mark: { // config of mark
-      radius: 5,
-      style: 'rgb(16, 142, 233)'
+    mark: {
+      radius: 5
     },
     font: {
       size: 14,
       family: 'Arial',
-      style: 'rgba(0, 0, 0, 0.6)'
+      style: 'rgb(255, 255, 255)'
     }
   }
 }
