@@ -107,8 +107,9 @@ BarChart.prototype.initBars = function () {
     small_step += 1.5 * bar_w;
     // set default style
     if (!helpers.isObject(item.style)) {
-      item.style.default = 'rgba(16, 142, 233, 0.6)';
-      item.style.active = 'rgb(16, 142, 233)';
+      item.style = Object.create(null);
+      item.style.default = optionManager.defaultBar.style.default;
+      item.style.active = optionManager.defaultBar.style.select;
     }
     item.data.forEach(function (val, idx) {
       var bar = createBar(big_step + small_step + self.yAxis_left, self.areaH + self.tick[0] * self.phyScale, bar_w, -1 * val * self.phyScale, item.style.default, item.style.active);
@@ -172,10 +173,6 @@ BarChart.prototype.animation = function () {
   ctx.closePath();
   ctx.clip();
 
-  /*ctx.beginPath();
-  ctx.rect(0, baseLineH, this.canvasW, -1 * temp);
-  ctx.closePath();
-  ctx.clip();*/
   this.drawBars();
   if (this.animQuota > -500) {
     var anim = this.animation.bind(this);

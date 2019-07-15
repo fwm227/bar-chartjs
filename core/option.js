@@ -41,15 +41,11 @@ export default {
     style: '#ccc',
     width: 1
   },
-  bar: {
+  defaultBar: { // set default style of bar
     style: {
       default: 'rgba(16, 142, 233, 0.6)',
-      select: 'rgb(16, 142, 233)',
+      select: 'rgb(16, 142, 233)'
     }
-  },
-  style: {
-    axis: '#aaa',
-    line: '#ccc'
   },
   duration: 500,
   tooltip: {
