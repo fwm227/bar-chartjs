@@ -158,7 +158,8 @@ BarChart.prototype.drawBars = function (move_position) {
       isSelect = true;
       selInfo = {
         label_val: optionManager.labels[Math.floor((move_position.x - self.yAxis_left) / step_len)],
-        data_val: bar.val
+        data_val: bar.val,
+        style: bar.d_style
       }
     } else isSelect = false;
     drawBar(self.context, bar, isSelect);

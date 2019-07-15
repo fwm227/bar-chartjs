@@ -54,13 +54,12 @@ export default {
     height: 50,
     radius: 4,
     mark: {
-      radius: 5,
-      style: 'rgb(16, 142, 233)'
+      radius: 5
     },
     font: {
       size: 14,
       family: 'Arial',
-      style: 'rgba(0, 0, 0, 0.6)'
+      style: 'rgb(255, 255, 255)'
     }
   }
 };

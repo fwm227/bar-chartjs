@@ -42,13 +42,14 @@ function drawTooltip (ctx, move_position, info) {
   ctx.fillStyle = '#fff';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'middle';
+  ctx.fillStyle = optionManager.tooltip.font.style;
   ctx.fillText(info.label_val, moveX + additionWidth / 2, moveY + 0.85 * tooltipHeight / 3);
   ctx.fillText(tooltipText, moveX + additionWidth / 2 + 3 * markRadius, moveY + 2.1 * tooltipHeight / 3);
   ctx.closePath();
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.fillStyle = optionManager.tooltip.mark.style;
+  ctx.fillStyle = info.style;
   ctx.arc(moveX + additionWidth / 2 + markRadius, moveY + 2 * tooltipHeight / 3, markRadius, 0, 2 * Math.PI);
   ctx.fill();
 }
