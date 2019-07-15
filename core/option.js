@@ -1,5 +1,5 @@
 export default {
-  data: [],
+  series: [],
   labels: [],
   margin: {
     top: 30,

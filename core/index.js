@@ -51,9 +51,15 @@ BarChart.prototype.initEvent = function (canvasDom) {
  * Init data
  */
 BarChart.prototype.initData = function () {
+  if (optionManager.series.length > 1) this.series = true;
+
   this.animQuota = 0;
-  this.min_data = Math.min(...optionManager.data);
-  this.max_data = Math.max(...optionManager.data);
+  var totalData = [];
+  optionManager.series.forEach(function (item, idx) {
+    totalData = totalData.concat(item.data);
+  });
+  this.min_data = Math.min(...totalData);
+  this.max_data = Math.max(...totalData);
 };
 
 /**
@@ -92,12 +98,23 @@ BarChart.prototype.initBars = function () {
 
   self.bars = [];
   self.phyScale = (self.areaH - optionManager.margin.top) / (self.tick[1] - self.tick[0]);
-  var bar_w = self.areaW / (optionManager.data.length + 1) / 2;
-  var next_x_axis = bar_w * 1.5;
-  optionManager.data.forEach(function (val, index) {
-    var bar = createBar(next_x_axis + self.yAxis_left, self.areaH + self.tick[0] * self.phyScale, bar_w, -1 * val * self.phyScale);
-    self.bars.push(bar);
-    next_x_axis += 2 * bar_w;
+  var step_len = self.areaW / (optionManager.labels.length + 1);
+  var bar_w =  step_len / (2 * optionManager.series.length);
+  var big_step = 0, small_step = 0;
+
+  optionManager.series.forEach(function (item, index) {
+    big_step = 0;
+    small_step += 1.5 * bar_w;
+    // set default style
+    if (!helpers.isObject(item.style)) {
+      item.style.default = 'rgba(16, 142, 233, 0.6)';
+      item.style.active = 'rgb(16, 142, 233)';
+    }
+    item.data.forEach(function (val, idx) {
+      var bar = createBar(big_step + small_step + self.yAxis_left, self.areaH + self.tick[0] * self.phyScale, bar_w, -1 * val * self.phyScale, item.style.default, item.style.active);
+      self.bars.push(bar);
+      big_step += step_len;
+    });
   });
 };
 

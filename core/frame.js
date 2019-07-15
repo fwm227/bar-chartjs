@@ -54,7 +54,7 @@ function drawAxis (ctx, base_pos, yAxis_left, area_w, area_h) {
  * @param  {Number} area_w     area width
  * @param  {Number} area_h     area height
  */
-function drawXAxisLabel (ctx, yAxis_left, area_w, area_h) {
+function drawXAxisLabel (ctx, base_pos, yAxis_left, area_w, area_h) {
   var labels = optionManager.labels;
   var x_step = area_w / (labels.length + 1);
   var tickLength = optionManager.xAxis.tick.length;
@@ -66,8 +66,8 @@ function drawXAxisLabel (ctx, yAxis_left, area_w, area_h) {
   ctx.fillStyle = optionManager.xAxis.font.style;
   for (var i = 1; i <= labels.length; i++) {
     var x_pos = Math.round(i * x_step);
-    ctx.moveTo(yAxis_left + x_pos, area_h);
-    ctx.lineTo(yAxis_left + x_pos, area_h + tickLength);
+    ctx.moveTo(yAxis_left + x_pos, base_pos);
+    ctx.lineTo(yAxis_left + x_pos, base_pos + tickLength);
     ctx.fillText(labels[i - 1], yAxis_left + x_pos, area_h + 20);
   }
   ctx.closePath();
@@ -126,7 +126,7 @@ function drawFrame (barChart) {
   var area_h = barChart.areaH;
   var base_pos = area_h + Math.round(tick[0] * barChart.phyScale);
   drawAxis(ctx, base_pos, yAxis_left, area_w, area_h);
-  drawXAxisLabel(ctx, yAxis_left, area_w, area_h);
+  drawXAxisLabel(ctx, base_pos, yAxis_left, area_w, area_h);
   drawYAxisLabel(ctx, tick, yAxis_left, phyStep, area_w, area_h);
 }
 
