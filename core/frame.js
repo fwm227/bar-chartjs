@@ -26,7 +26,7 @@ import optionManager from './option.js';
 /**
  * Draw Axis
  * @param  {Object} ctx        context of bar-chart
- * @param  {Number} base_pos the position of line that mark zero in y-axis
+ * @param  {Number} base_pos   the position of x-axis
  * @param  {Number} yAxis_left margin-left
  * @param  {Number} area_w     area width
  * @param  {Number} area_h     area height
@@ -50,6 +50,7 @@ function drawAxis (ctx, base_pos, yAxis_left, area_w, area_h) {
 /**
  * Draw label and tick of x-axis
  * @param  {Object} ctx        context of bar-chart
+ * @param  {Number} base_pos   the position of x-axis
  * @param  {Number} yAxis_left margin-left
  * @param  {Number} area_w     area width
  * @param  {Number} area_h     area height
