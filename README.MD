@@ -25,9 +25,13 @@ yarn add bar-chartjs
 import BarChart from 'bar-chartjs';
 ```
 
+### HTML
+
 ```html
 <canvas id="canvas" width="600" height="400"></canvas>
 ```
+
+### Javascript
 
 ```javascript
 var canvas = document.querySelector('#canvas');
