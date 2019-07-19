@@ -2,7 +2,7 @@
 
 > The bar-chart visualization plugin
 
-[![Build Status](https://travis-ci.org/reming0227/bar-chartjs.svg?branch=master)](https://travis-ci.org/reming0227/bar-chartjs) [![Version](https://img.shields.io/badge/npm-1.1.0-blue.svg)](https://www.npmjs.com/package/bar-chartjs)
+[![Build Status](https://travis-ci.org/reming0227/bar-chartjs.svg?branch=master)](https://travis-ci.org/reming0227/bar-chartjs) [![Version](https://img.shields.io/badge/npm-1.1.1-blue.svg)](https://www.npmjs.com/package/bar-chartjs)
 
 ## 📦 Installation
 
@@ -12,6 +12,18 @@ yarn add bar-chartjs
 ```
 
 ## 🔨 Usage
+
+### CDN Import
+
+```html
+<script type="text/javascript" src="https://unpkg.com/line-chartjs/lib/index.min.js"></script>
+```
+
+### Module Import
+
+```javascript
+import BarChart from 'bar-chartjs';
+```
 
 ```html
 <canvas id="canvas" width="600" height="400"></canvas>
