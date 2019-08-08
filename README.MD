@@ -154,6 +154,9 @@ new BarChart(canvas, Option);
 }
 ```
 
+## 🎬 Preview
+
+
 
 ## 📃 License
 
