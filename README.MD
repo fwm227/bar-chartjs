@@ -156,7 +156,7 @@ new BarChart(canvas, Option);
 
 ## 🎬 Preview
 
-
+[![GIF](https://raw.githubusercontent.com/reming0227/bar-chartjs/master/docs/preview.gif)]
 
 ## 📃 License
 
